@@ -1,0 +1,36 @@
+---
+- name: Install web server on Ubuntu and RedHat
+  hosts: workers
+  become: yes
+
+  tasks:
+    - name: Update apt cache on Ubuntu
+      ansible.builtin.apt:
+        update_cache: yes
+      when: ansible_facts["os_family"] == "Debian"
+
+    - name: Install nginx on Ubuntu
+      ansible.builtin.apt:
+        name: nginx
+        state: present
+      when: ansible_facts["os_family"] == "Debian"
+
+    - name: Install httpd on RedHat
+      ansible.builtin.dnf:
+        name: httpd
+        state: present
+      when: ansible_facts["os_family"] == "RedHat"
+
+    - name: Start nginx on Ubuntu
+      ansible.builtin.service:
+        name: nginx
+        state: started
+        enabled: yes
+      when: ansible_facts["os_family"] == "Debian"
+
+    - name: Start httpd on RedHat
+      ansible.builtin.service:
+        name: httpd
+        state: started
+        enabled: yes
+      when: ansible_facts["os_family"] == "RedHat"

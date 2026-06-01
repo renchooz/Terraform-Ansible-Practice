@@ -1,0 +1,10 @@
+# Terraform (provider binaries can be 100MB+ — do not commit)
+**/.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+
+# Secrets / local config (often contains credentials)
+*.tfvars
+ansible-key
+*.pem
